@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BP6 - Moteur de recherche avancé</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Moteur de recherche avancé</h1>
+      <p class="subtitle">
+        Filtrez le tableau ci-dessous à l'aide de critères dynamiques, de la
+        recherche fuzzy et d'expressions régulières.
+      </p>
+    </header>
+
+    <main>
+      <section class="panel" id="column-filter-panel">
+        <h2>Colonnes analysées</h2>
+        <p class="panel-help">
+          Cochez les colonnes à inclure dans la recherche. Choisir « Toutes les
+          colonnes » sélectionne ou désélectionne l'ensemble.
+        </p>
+        <div id="column-checkboxes" class="checkbox-group"></div>
+      </section>
+
+      <section class="panel" id="criteria-panel">
+        <div class="panel-header">
+          <h2>Critères de recherche</h2>
+          <div class="panel-actions">
+            <label class="inline-control">
+              <input type="checkbox" id="exact-match-toggle" />
+              <span>Correspondance exacte</span>
+            </label>
+            <label class="inline-control">
+              <input type="checkbox" id="fuzzy-toggle" />
+              <span>Recherche floue</span>
+            </label>
+            <label class="inline-control fuzzy-threshold" for="fuzzy-threshold">
+              <span>Seuil</span>
+              <input
+                type="range"
+                id="fuzzy-threshold"
+                min="0"
+                max="2"
+                value="1"
+                step="1"
+              />
+              <span id="fuzzy-value">1</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="criteria-join">
+          <label for="join-operator">Jointure entre critères</label>
+          <select id="join-operator">
+            <option value="AND">ET</option>
+            <option value="OR">OU</option>
+          </select>
+        </div>
+
+        <div id="criteria-container" class="criteria-container"></div>
+        <div class="criteria-actions">
+          <button type="button" id="add-criteria">+ Ajouter un critère</button>
+        </div>
+      </section>
+
+      <section class="panel" id="feedback-panel">
+        <div id="feedback-message" role="alert" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" id="results-panel">
+        <div class="results-header">
+          <h2>Résultats</h2>
+          <span id="results-count"></span>
+        </div>
+        <div class="table-wrapper">
+          <table id="results-table">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <template id="criteria-template">
+      <div class="criteria-row" data-criteria-id="">
+        <div class="field">
+          <label>Colonne</label>
+          <select class="criteria-column"></select>
+        </div>
+        <div class="field">
+          <label>Opérateur</label>
+          <select class="criteria-operator">
+            <option value="contains">Contient</option>
+            <option value="startsWith">Commence par</option>
+            <option value="endsWith">Finit par</option>
+            <option value="equals">Égal</option>
+            <option value="notEquals">Différent</option>
+            <option value="regex">Regex</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Valeur</label>
+          <input type="text" class="criteria-value" placeholder="Saisir une valeur" />
+        </div>
+        <div class="field checkbox-field">
+          <label class="inline-control">
+            <input type="checkbox" class="criteria-regex-toggle" />
+            <span>Utiliser une regex</span>
+          </label>
+        </div>
+        <div class="field remove-field">
+          <button type="button" class="remove-criteria" title="Supprimer ce critère">
+            ×
+          </button>
+        </div>
+        <div class="field full-width error-field" aria-live="polite"></div>
+      </div>
+    </template>
+
+    <script src="assets/app.js" type="module"></script>
+  </body>
+</html>
